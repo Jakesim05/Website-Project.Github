@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Data Barang - Alat Tulis Kantor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manajemen Data Barang - Alat Tulis Kantor</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Jumlah</th>
+                <th>Harga</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="data-table">
+            <!-- Data akan dimasukkan secara dinamis -->
+        </tbody>
+    </table>
+
+    <div class="form-container">
+        <h2>Tambah / Edit Barang</h2>
+        <form id="barang-form">
+            <div class="form-group">
+                <label for="nama">Nama Barang</label>
+                <input type="text" id="nama" required>
+            </div>
+            <div class="form-group">
+                <label for="kategori">Kategori</label>
+                <input type="text" id="kategori" required>
+            </div>
+            <div class="form-group">
+                <label for="jumlah">Jumlah</label>
+                <input type="number" id="jumlah" required>
+            </div>
+            <div class="form-group">
+                <label for="harga">Harga</label>
+                <input type="number" id="harga" required>
+            </div>
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("barang-form");
+        const table = document.getElementById("data-table");
+
+        let barangList = [];
+
+        function renderTable() {
+            table.innerHTML = "";
+            barangList.forEach((barang, index) => {
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${barang.nama}</td>
+                        <td>${barang.kategori}</td>
+                        <td>${barang.jumlah}</td>
+                       <td>${barang.harga}</td>
+                        <td>
+                            <button onclick="editBarang(${index})">Edit</button>
+                            <button onclick="deleteBarang(${index})">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+                table.innerHTML += row;
+            });
+        }
+
+        function editBarang(index) {
+            const barang = barangList[index];
+            document.getElementById("nama").value = barang.nama;
+            document.getElementById("kategori").value = barang.kategori;
+            document.getElementById("jumlah").value = barang.jumlah;
+            document.getElementById("harga").value = barang.harga;
+            form.dataset.index = index; // Simpan index barang yang sedang diedit
+        }
+
+        function deleteBarang(index) {
+            barangList.splice(index, 1);
+            renderTable();
+        }
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const nama = document.getElementById("nama").value;
+            const kategori = document.getElementById("kategori").value;
+            const jumlah = document.getElementById("jumlah").value;
+            const harga = document.getElementById("harga").value;
+
+            const barang = { nama, kategori, jumlah, harga };
+
+            const index = form.dataset.index;
+
+            if (index !== undefined) {
+                // Edit barang
+                barangList[index] = barang;
+                delete form.dataset.index; // Hapus index setelah diedit
+            } else {
+                // Tambah barang baru
+                barangList.push(barang);
+            }
+
+            form.reset();
+            renderTable();
+        });
+
+        renderTable();
+    </script>
+</body>
+</html>
