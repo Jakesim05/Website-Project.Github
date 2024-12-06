@@ -15,12 +15,12 @@
             margin-top: 20px;
         }
         th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #1d1c1c;
             padding: 10px;
             text-align: center;
         }
         th {
-            background-color: #f4f4f4;
+            background-color: #bde9e7;
         }
         .form-container {
             margin-top: 20px;
@@ -41,22 +41,22 @@
             padding: 10px 15px;
             border: none;
             background-color: #007BFF;
-            color: white;
+            color: rgb(252, 249, 249);
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #008fb3;
         }
     </style>
 </head>
 <body>
-    <h1>Manajemen Data Barang - Alat Tulis Kantor</h1>
+    <h1>Manajemen Data Barang - Alat Tulis</h1>
 
     <table>
         <thead>
             <tr>
                 <th>No</th>
-                <th>Nama Barang</th>
+                <th>Merk Barang</th>
                 <th>Kategori</th>
                 <th>Jumlah</th>
                 <th>Harga</th>
@@ -72,12 +72,36 @@
         <h2>Tambah / Edit Barang</h2>
         <form id="barang-form">
             <div class="form-group">
-                <label for="nama">Nama Barang</label>
-                <input type="text" id="nama" required>
+                <label for="nama">Merk Barang</label>
+                <select type="text" id="nama" required>
+                                <option value=""></option>
+                                <option value="Pilot">Pilot</option>
+                                <option value="Snowman">Snowman</option>
+                                <option value="Steadler 2B">Steadler 2B</option>
+                                <option value="Montana">Montana</option>
+                                <option value="Kenko">Kenko</option>
+                                <option value="Sinar Dunia">Sinar Dunia</option>
+                                <option value="Sidu">Sidu</option>
+                                <option value="Maxi">Maxi</option>
+                                <option value="Butterfly">Butterfly</option>
+                                <option value="Kayagi">Kayagi</option>
+                                <option value="Faber-Castell">Faber-Castell</option>
+                                <option value="Joyko">Joyko</option>
+                                </select>
             </div>
             <div class="form-group">
-                <label for="kategori">Kategori</label>
-                <input type="text" id="kategori" required>
+                <label for="kategori">kategori</label>
+                <select type="text" id="kategori"required>
+                                <option value=""></option>
+                                <option value="Pulpen">Pulpen</option>
+                                <option value="Pensil">Pensil</option>
+                                <option value="Buku">Buku</option>
+                                <option value="Kertas">Kertas</option>
+                                <option value="Penggaris">Penggaris</option>
+                                <option value="Rautan">Rautan</option>
+                                <option value="Penghapus">Penghapus</option>
+                                <option value="Gunting">Gunting</option>
+                                </select>
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah</label>
@@ -102,7 +126,7 @@
             barangList.forEach((barang, index) => {
                 const row = `
                     <tr>
-                        <td>${index + 1}</td>
+                        <td>${index +1}</td>
                         <td>${barang.nama}</td>
                         <td>${barang.kategori}</td>
                         <td>${barang.jumlah}</td>
@@ -112,6 +136,26 @@
                             <button onclick="deleteBarang(${index})">Hapus</button>
                         </td>
                     </tr>
+                `;
+                table.innerHTML += row;
+            });
+        }
+
+        function renderTable() {
+            table.innerHTML = "";
+            barangList.forEach((barang, index) => {
+                 const row = `
+                     <tr>
+                            <td>${index + 1}</td>
+                            <td>${barang.nama}</td>
+                            <td>${barang.kategori}</td>
+                            <td>${barang.jumlah}</td>
+                            <td>Rp ${barang.harga.toLocaleString('id-ID')}</td>
+                            <td>
+                                <button onclick="editBarang(${index})">Edit</button>
+                                <button onclick="deleteBarang(${index})">Hapus</button>
+                            </td>
+                     </tr>
                 `;
                 table.innerHTML += row;
             });
@@ -130,6 +174,14 @@
             barangList.splice(index, 1);
             renderTable();
         }
+
+        function deleteBarang(index) {
+      if (confirm("Apakah Anda yakin ingin menghapus barang ini?")) {
+        barangList.splice(index, 1);
+        renderTable();
+      }
+    }
+
         form.addEventListener("submit", (event) => {
             event.preventDefault();
             const nama = document.getElementById("nama").value;
@@ -156,5 +208,6 @@
 
         renderTable();
     </script>
+</div>
 </body>
 </html>
