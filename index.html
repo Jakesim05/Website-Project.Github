@@ -150,7 +150,7 @@
                             <td>${barang.nama}</td>
                             <td>${barang.kategori}</td>
                             <td>${barang.jumlah}</td>
-                            <td>Rp ${barang.harga.toLocaleString('id-ID')}</td>
+                            <td>Rp ${parseInt(barang.harga).toLocaleString('id-ID')}</td>
                             <td>
                                 <button onclick="editBarang(${index})">Edit</button>
                                 <button onclick="deleteBarang(${index})">Hapus</button>
