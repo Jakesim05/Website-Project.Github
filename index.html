@@ -111,7 +111,7 @@
                 <th>No</th>
                 <th>Tanggal</th>
                 <th>Merk Barang</th>
-                <th>Kategori</th>
+                <th>Jenis Barang</th>
                 <th>Jumlah</th>
                 <th>Harga</th>
                 <th>Total Harga</th>
@@ -167,7 +167,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="kategori">kategori</label>
+                <label for="kategori">Jenis Barang</label>
                 <select id="kategori" required>
                     <option value=""></option>
                     <option value="Pulpen">Pulpen</option>
@@ -205,7 +205,8 @@
         const totalPemasukanElement = document.getElementById("total-pemasukan");
         const totalPengeluaranElement = document.getElementById("total-pengeluaran");
 
-        let barangList = [];
+                // Mengambil data barang dari localStorage, atau inisialisasi jika kosong
+                let barangList = JSON.parse(localStorage.getItem("barangList")) || [];
 
         function renderTable() {
             table.innerHTML = "";
@@ -256,13 +257,9 @@
         }
 
         function deleteBarang(index) {
-            barangList.splice(index, 1);
-            renderTable();
-        }
-
-        function deleteBarang(index) {
             if (confirm("Apakah Anda Yakin Ingin Menghapus Barang Ini?")) {
                 barangList.splice(index, 1);
+                localStorage.setItem("barangList", JSON.stringify(barangList)); // Simpan ke localStorage
                 renderTable();
             }
         }
@@ -288,10 +285,12 @@
                 barangList.push(barang);
             }
 
+
             form.reset();
+            localStorage.setItem("barangList", JSON.stringify(barangList)); // Simpan ke localStorage
             renderTable();
         });
-
+        // Render tabel saat halaman dimuat
         renderTable();
     </script>
 </div>
